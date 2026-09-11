@@ -9,7 +9,7 @@ function Spill() {
     const canvas = canvasRef.current
     const c = canvas.getContext('2d')
 
-    let inner_firkant = window.innerWidth < 600 ? 70 : 100
+    let inner_firkant = window.innerWidth < 600 ? 90 : 100
     let innerst_firkant = inner_firkant / 3
 
     canvas.width = inner_firkant * 3
