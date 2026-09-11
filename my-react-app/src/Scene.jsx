@@ -65,6 +65,7 @@ function Scene() {
     renderer.domElement.style.left = '0'
     renderer.domElement.style.cursor = 'crosshair'
     renderer.domElement.style.touchAction = 'none'
+    renderer.domElement.addEventListener('click', arrowClick)
 
 
     // --------------------------------------------------
@@ -106,6 +107,10 @@ function Scene() {
 
     let yaw = 0
     let pitch = 0
+    let arrow = null
+
+    const raycaster = new THREE.Raycaster()
+    const mouse = new THREE.Vector2()
 
     const mouseSensitivity = 0.0006
     const touchSensitivity = 0.0035
@@ -175,6 +180,21 @@ function Scene() {
         -Math.PI / 2 + 0.05,
         Math.min(Math.PI / 2 - 0.05, pitch)
       )
+    }
+
+    function arrowClick(event) {
+      mouse.x = (event.clientX / window.innerWidth) * 2 - 1
+      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+
+      raycaster.setFromCamera(mouse, camera)
+
+      if (!arrow) return
+
+      const intersects = raycaster.intersectObject(arrow)
+
+      if (intersects.length > 0) {
+        window.location.href = '/Skrivebord'
+      }
     }
 
     renderer.domElement.addEventListener('pointerdown', pointerDown)
@@ -349,6 +369,34 @@ function Scene() {
         yaw = Math.PI / 2
         pitch = 0
 
+        // --------------------------------------------------
+        // PIL
+        // --------------------------------------------------
+
+        const shape = new THREE.Shape()
+        shape.moveTo(0, 0.1)
+        shape.lineTo(0.1, -0.1)
+        shape.lineTo(0, -0.05)
+        shape.lineTo(-0.1, -0.1)
+        shape.closePath()
+
+        arrow = new THREE.Mesh(
+          new THREE.ShapeGeometry(shape),
+          new THREE.MeshBasicMaterial({ color: 0xffffff })
+        )
+
+        arrow.rotation.x = -Math.PI / 2
+        arrow.rotation.z = -Math.PI / 2
+        arrow.rotation.y = Math.PI / 2
+
+        arrow.position.set(
+          camera.position.x - 1.3,
+          camera.position.y - 0.3,
+          camera.position.z
+        )
+
+        scene.add(arrow)
+
 
         console.log(
           'LO-FI ROOM LOADED'
@@ -364,7 +412,6 @@ function Scene() {
         )
       }
     )
-
 
     // --------------------------------------------------
     // HENT KAMERAPOSISJON FRA CONSOLE
@@ -466,6 +513,10 @@ function Scene() {
         scene,
         camera
       )
+
+      if (arrow) {
+        arrow.position.y += Math.sin(Date.now() * 0.004) * 0.001
+      }
     }
 
 

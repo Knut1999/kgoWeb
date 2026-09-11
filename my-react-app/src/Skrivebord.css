@@ -1,0 +1,173 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #222;
+  overflow: hidden;
+}
+
+.monitor {
+  width: 100vw;
+  height: 100vh;
+  padding: 35px;
+
+  background: #666;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.screen {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+
+  border: 12px solid #808080;
+  border-radius: 8px;
+
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+.wallpaper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
+}
+
+.desktop-icons,
+.taskbar {
+  position: relative;
+  z-index: 2;
+}
+
+/* CRT-effekt */
+
+.screen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.025) 0px,
+    rgba(255, 255, 255, 0.025) 1px,
+    rgba(0, 0, 0, 0.04) 2px,
+    rgba(0, 0, 0, 0.04) 4px
+  );
+}
+
+/* Ikoner */
+
+.desktop-icons {
+  padding: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 110px;
+}
+
+.desktop-icon {
+  color: white;
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+  cursor: pointer;
+  text-shadow: 1px 1px #000;
+}
+
+.desktop-icon-image {
+  font-size: 38px;
+  margin-bottom: 4px;
+}
+
+.desktop-icon:hover {
+  background: rgba(0, 0, 128, 0.5);
+}
+
+/* Taskbar */
+
+.taskbar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+
+  height: 38px;
+
+  background: #c0c0c0;
+
+  border-top: 2px solid white;
+
+  display: flex;
+  align-items: center;
+
+  padding: 3px;
+
+  z-index: 5;
+}
+
+.start-button {
+  height: 30px;
+  font-weight: bold;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.windows-logo {
+  font-size: 18px;
+}
+
+.taskbar-divider {
+  width: 2px;
+  height: 28px;
+  border-left: 1px solid #808080;
+  border-right: 1px solid white;
+  margin-left: 5px;
+}
+
+.quick-launch {
+  display: flex;
+  gap: 8px;
+  padding-left: 8px;
+  font-size: 18px;
+}
+
+.taskbar-space {
+  flex: 1;
+}
+
+.system-tray {
+  height: 28px;
+
+  border-top: 2px solid #808080;
+  border-left: 2px solid #808080;
+
+  border-right: 2px solid white;
+  border-bottom: 2px solid white;
+
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 0 8px;
+
+  font-family: Arial, sans-serif;
+  font-size: 12px;
+}
+
+/* Litt CRT-glow */
+
+.screen-glow {
+  position: absolute;
+  pointer-events: none;
+}

@@ -1,7 +1,16 @@
+import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Scene from './Scene'
+import Skrivebord from './Skrivebord'
 
 function App() {
-  return <Scene />
+  return (
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Scene />} />
+        <Route path="/Skrivebord" element={<Skrivebord />} />
+      </Routes>
+    </BrowserRouter>
+  )
 }
 
 export default App
