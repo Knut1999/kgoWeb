@@ -58,6 +58,7 @@ function Scene() {
     renderer.domElement.style.top = '0'
     renderer.domElement.style.left = '0'
     renderer.domElement.style.cursor = 'crosshair'
+    renderer.domElement.style.touchAction = 'none'
 
 
     // --------------------------------------------------
@@ -129,17 +130,22 @@ function Scene() {
     let previousMouseX = 0
     let previousMouseY = 0
 
-    function mouseDown(event) {
+    function pointerDown(event) {
+      // Ikke start kameradrag hvis vi trykker på joysticken
+      if (event.target === joystick || joystick.contains(event.target)) {
+        return
+      }
+
       isDragging = true
       previousMouseX = event.clientX
       previousMouseY = event.clientY
     }
 
-    function mouseUp() {
+    function pointerUp() {
       isDragging = false
     }
 
-    function mouseMove(event) {
+    function pointerMove(event) {
       if (!isDragging) {
         return
       }
@@ -159,9 +165,9 @@ function Scene() {
       )
     }
 
-    renderer.domElement.addEventListener('mousedown', mouseDown)
-    window.addEventListener('mouseup', mouseUp)
-    window.addEventListener('mousemove', mouseMove)
+    renderer.domElement.addEventListener('pointerdown', pointerDown)
+    window.addEventListener('pointermove', pointerMove)
+    window.addEventListener('pointerup', pointerUp)
 
 
     // --------------------------------------------------
