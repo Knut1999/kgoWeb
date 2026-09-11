@@ -1,6 +1,10 @@
 import './Skrivebord.css'
+import Spill from './Spill'
+import { useState } from 'react'
 
 function Skrivebord() {
+  const [spillOpen, setSpillOpen] = useState(false)
+
   return (
     <div className="monitor">
       <div className="screen">
@@ -12,6 +16,14 @@ function Skrivebord() {
         />
 
         <div className="desktop-icons">
+
+          <div
+            className="desktop-icon"
+            onDoubleClick={() => setSpillOpen(true)}
+          >
+            <div className="desktop-icon-image">🎮</div>
+            <span>Spill</span>
+          </div>
 
           <div className="desktop-icon">
             <div className="desktop-icon-image">💻</div>
@@ -34,6 +46,22 @@ function Skrivebord() {
           </div>
 
         </div>
+
+        {spillOpen && (
+          <div className="game-window">
+            <div className="game-titlebar">
+              <span>Ultimate Tic-Tac-Toe</span>
+
+              <button onClick={() => setSpillOpen(false)}>
+                ×
+              </button>
+            </div>
+
+            <div className="game-content">
+              <Spill />
+            </div>
+          </div>
+        )}
 
         <div className="taskbar">
           <button className="start-button">
@@ -62,4 +90,3 @@ function Skrivebord() {
 }
 
 export default Skrivebord
-

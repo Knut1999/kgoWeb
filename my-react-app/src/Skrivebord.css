@@ -2,23 +2,15 @@
   box-sizing: border-box;
 }
 
-@media (max-width: 600px) {
-  .monitor {
-    padding: 15px;
-  }
-
-  .screen {
-    transform: scale(0.9);
-    width: 111%;
-    height: 111%;
-  }
-}
-
 body {
   margin: 0;
   background: #222;
   overflow: hidden;
 }
+
+/* =========================
+   GAMMEL PC / SKJERM
+   ========================= */
 
 .monitor {
   width: 100vw;
@@ -31,40 +23,47 @@ body {
   align-items: center;
   justify-content: center;
 }
+
 .screen {
   position: relative;
+
   width: 100%;
   height: 100%;
+
   overflow: hidden;
 
   border: 12px solid #808080;
   border-radius: 8px;
 
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
+  background: #000;
 }
+
+/* =========================
+   WALLPAPER
+   ========================= */
+
 .wallpaper {
   position: absolute;
   inset: 0;
+
   width: 100%;
   height: 100%;
+
   object-fit: cover;
+
   z-index: 0;
 }
 
-.desktop-icons,
-.taskbar {
-  position: relative;
-  z-index: 2;
-}
-
-/* CRT-effekt */
+/* =========================
+   CRT-EFFEKT
+   ========================= */
 
 .screen::after {
   content: "";
+
   position: absolute;
   inset: 0;
+
   pointer-events: none;
 
   background: repeating-linear-gradient(
@@ -74,29 +73,45 @@ body {
     rgba(0, 0, 0, 0.04) 2px,
     rgba(0, 0, 0, 0.04) 4px
   );
+
+  z-index: 20;
 }
 
-/* Ikoner */
+/* =========================
+   DESKTOP-IKONER
+   ========================= */
 
 .desktop-icons {
+  position: relative;
+
+  z-index: 2;
+
   padding: 15px;
+
   display: flex;
   flex-direction: column;
+
   gap: 20px;
+
   width: 110px;
 }
 
 .desktop-icon {
   color: white;
+
   text-align: center;
+
   font-family: Arial, sans-serif;
   font-size: 12px;
+
   cursor: pointer;
+
   text-shadow: 1px 1px #000;
 }
 
 .desktop-icon-image {
   font-size: 38px;
+
   margin-bottom: 4px;
 }
 
@@ -104,10 +119,13 @@ body {
   background: rgba(0, 0, 128, 0.5);
 }
 
-/* Taskbar */
+/* =========================
+   TASKBAR
+   ========================= */
 
 .taskbar {
   position: absolute;
+
   bottom: 0;
   left: 0;
   right: 0;
@@ -128,10 +146,13 @@ body {
 
 .start-button {
   height: 30px;
+
   font-weight: bold;
   font-size: 13px;
+
   display: flex;
   align-items: center;
+
   gap: 4px;
 }
 
@@ -142,15 +163,20 @@ body {
 .taskbar-divider {
   width: 2px;
   height: 28px;
+
   border-left: 1px solid #808080;
   border-right: 1px solid white;
+
   margin-left: 5px;
 }
 
 .quick-launch {
   display: flex;
+
   gap: 8px;
+
   padding-left: 8px;
+
   font-size: 18px;
 }
 
@@ -169,6 +195,7 @@ body {
 
   display: flex;
   align-items: center;
+
   gap: 8px;
 
   padding: 0 8px;
@@ -177,9 +204,82 @@ body {
   font-size: 12px;
 }
 
-/* Litt CRT-glow */
+/* =========================
+   SPILLVINDU
+   ========================= */
 
-.screen-glow {
+.game-window {
   position: absolute;
-  pointer-events: none;
+
+  top: 40px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: min(800px, 90%);
+  height: min(700px, 90%);
+
+  background: #c0c0c0;
+
+  border: 3px solid;
+  border-color: white #404040 #404040 white;
+
+  z-index: 10;
+}
+
+.game-titlebar {
+  height: 30px;
+
+  background: #000080;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 3px 5px;
+
+  font-weight: bold;
+}
+
+.game-titlebar button {
+  width: 24px;
+  height: 23px;
+
+  padding: 0;
+
+  font-weight: bold;
+}
+
+.game-content {
+  height: calc(100% - 30px);
+
+  padding: 15px;
+
+  overflow: hidden;
+}
+
+/* =========================
+   MOBIL
+   ========================= */
+
+@media (max-width: 600px) {
+
+  .monitor {
+    padding: 15px;
+  }
+
+  .screen {
+    transform: scale(0.9);
+
+    width: 111%;
+    height: 111%;
+  }
+
+  .game-window {
+    width: 95%;
+    height: 85%;
+
+    top: 20px;
+  }
 }
