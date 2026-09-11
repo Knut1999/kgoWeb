@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react'
 import * as THREE from 'three'
 import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js'
+import GameScene from './GameScene'
 
 function Scene() {
   const containerRef = useRef(null)
@@ -12,10 +13,11 @@ function Scene() {
     // SCENE
     // --------------------------------------------------
 
+    const gs = new GameScene(container)
+
+
     const scene = new THREE.Scene()
-
     scene.background = new THREE.Color(0x080b18)
-
 
     // --------------------------------------------------
     // KAMERA
@@ -34,10 +36,10 @@ function Scene() {
       1000
     )
 
-    window.getCameraPosition = function () {
-      console.log(camera.position)
-    }
+    camera.position.set(-7, 3, -1.7)
 
+    let yaw = Math.PI / 2
+    let pitch = 0
 
     // --------------------------------------------------
     // RENDERER
@@ -65,8 +67,6 @@ function Scene() {
     renderer.domElement.style.left = '0'
     renderer.domElement.style.cursor = 'crosshair'
     renderer.domElement.style.touchAction = 'none'
-    renderer.domElement.addEventListener('click', arrowClick)
-
 
     // --------------------------------------------------
     // LYS
@@ -79,16 +79,13 @@ function Scene() {
 
     scene.add(ambientLight)
 
-
     const moonLight = new THREE.DirectionalLight(
       0x9bbcff,
       3
     )
 
     moonLight.position.set(-5, 10, 8)
-
     scene.add(moonLight)
-
 
     const warmLight = new THREE.PointLight(
       0xff8a45,
@@ -97,27 +94,10 @@ function Scene() {
     )
 
     warmLight.position.set(2, 3, 3)
-
     scene.add(warmLight)
 
-
     // --------------------------------------------------
-    // KAMERA-ROTASJON
-    // --------------------------------------------------
-
-    let yaw = 0
-    let pitch = 0
-    let arrow = null
-
-    const raycaster = new THREE.Raycaster()
-    const mouse = new THREE.Vector2()
-
-    const mouseSensitivity = 0.0006
-    const touchSensitivity = 0.0035
-
-
-    // --------------------------------------------------
-    // TASTER
+    // INPUT
     // --------------------------------------------------
 
     const keys = {}
@@ -133,18 +113,22 @@ function Scene() {
     window.addEventListener('keydown', keyDown)
     window.addEventListener('keyup', keyUp)
 
-
     // --------------------------------------------------
-    // MUS
+    // MUS / KAMERA
     // --------------------------------------------------
 
     let isDragging = false
     let previousMouseX = 0
     let previousMouseY = 0
 
+    const mouseSensitivity = 0.0007
+    const touchSensitivity = 0.0035
+
     function pointerDown(event) {
-      // Ikke start kameradrag hvis vi trykker på joysticken
-      if (event.target === joystick || joystick.contains(event.target)) {
+      if (
+        event.target === joystick ||
+        joystick.contains(event.target)
+      ) {
         return
       }
 
@@ -162,8 +146,11 @@ function Scene() {
         return
       }
 
-      const movementX = event.clientX - previousMouseX
-      const movementY = event.clientY - previousMouseY
+      const movementX =
+        event.clientX - previousMouseX
+
+      const movementY =
+        event.clientY - previousMouseY
 
       previousMouseX = event.clientX
       previousMouseY = event.clientY
@@ -182,25 +169,111 @@ function Scene() {
       )
     }
 
-    function arrowClick(event) {
-      mouse.x = (event.clientX / window.innerWidth) * 2 - 1
-      mouse.y = -(event.clientY / window.innerHeight) * 2 + 1
+    renderer.domElement.addEventListener(
+      'pointerdown',
+      pointerDown
+    )
+
+    window.addEventListener(
+      'pointermove',
+      pointerMove
+    )
+
+    window.addEventListener(
+      'pointerup',
+      pointerUp
+    )
+
+    // --------------------------------------------------
+    // PILE-INTERAKSJON
+    // --------------------------------------------------
+
+    let arrow = null
+    let arrow2 = null
+    let hoveredArrow = null
+
+    const raycaster = new THREE.Raycaster()
+    const mouse = new THREE.Vector2()
+
+    function updateArrowHover(event) {
+      mouse.x =
+        (event.clientX / window.innerWidth) * 2 - 1
+
+      mouse.y =
+        -(event.clientY / window.innerHeight) * 2 + 1
 
       raycaster.setFromCamera(mouse, camera)
 
-      if (!arrow) return
+      hoveredArrow = null
 
-      const intersects = raycaster.intersectObject(arrow)
+      const arrows = []
+
+      if (arrow) {
+        arrows.push(arrow)
+      }
+
+      if (arrow2) {
+        arrows.push(arrow2)
+      }
+
+      if (arrows.length === 0) {
+        return
+      }
+
+      const intersects =
+        raycaster.intersectObjects(arrows, true)
+
+      if (intersects.length === 0) {
+        return
+      }
+
+      let object = intersects[0].object
+
+      while (object) {
+        if (object === arrow) {
+          hoveredArrow = arrow
+          return
+        }
+
+        if (object === arrow2) {
+          hoveredArrow = arrow2
+          return
+        }
+
+        object = object.parent
+      }
+    }
+
+    function arrowClick(event) {
+      mouse.x =
+        (event.clientX / window.innerWidth) * 2 - 1
+
+      mouse.y =
+        -(event.clientY / window.innerHeight) * 2 + 1
+
+      raycaster.setFromCamera(mouse, camera)
+
+      if (!arrow) {
+        return
+      }
+
+      const intersects =
+        raycaster.intersectObject(arrow)
 
       if (intersects.length > 0) {
         window.location.href = '/Skrivebord'
       }
     }
 
-    renderer.domElement.addEventListener('pointerdown', pointerDown)
-    window.addEventListener('pointermove', pointerMove)
-    window.addEventListener('pointerup', pointerUp)
+    window.addEventListener(
+      'pointermove',
+      updateArrowHover
+    )
 
+    renderer.domElement.addEventListener(
+      'click',
+      arrowClick
+    )
 
     // --------------------------------------------------
     // MOBIL JOYSTICK
@@ -219,8 +292,10 @@ function Scene() {
     joystick.style.width = '120px'
     joystick.style.height = '120px'
     joystick.style.borderRadius = '50%'
-    joystick.style.background = 'rgba(255, 255, 255, 0.15)'
-    joystick.style.border = '2px solid rgba(255, 255, 255, 0.3)'
+    joystick.style.background =
+      'rgba(255, 255, 255, 0.15)'
+    joystick.style.border =
+      '2px solid rgba(255, 255, 255, 0.3)'
     joystick.style.touchAction = 'none'
     joystick.style.display = 'none'
     joystick.style.zIndex = '10'
@@ -231,7 +306,8 @@ function Scene() {
     joystickKnob.style.width = '50px'
     joystickKnob.style.height = '50px'
     joystickKnob.style.borderRadius = '50%'
-    joystickKnob.style.background = 'rgba(255, 255, 255, 0.5)'
+    joystickKnob.style.background =
+      'rgba(255, 255, 255, 0.5)'
 
     joystick.appendChild(joystickKnob)
     document.body.appendChild(joystick)
@@ -251,11 +327,13 @@ function Scene() {
       }
 
       const touch = event.touches[0]
-
       const rect = joystick.getBoundingClientRect()
 
-      const centerX = rect.left + rect.width / 2
-      const centerY = rect.top + rect.height / 2
+      const centerX =
+        rect.left + rect.width / 2
+
+      const centerY =
+        rect.top + rect.height / 2
 
       let x = touch.clientX - centerX
       let y = touch.clientY - centerY
@@ -303,7 +381,7 @@ function Scene() {
     )
 
     // --------------------------------------------------
-    // LAST INN BLENDER-MODELL
+    // BLENDER-MODELL OG PILER
     // --------------------------------------------------
 
     const loader = new GLTFLoader()
@@ -313,33 +391,20 @@ function Scene() {
 
       function (gltf) {
         const room = gltf.scene
-
         scene.add(room)
 
+        const box =
+          new THREE.Box3().setFromObject(room)
 
-        // Finn størrelsen på modellen
-        const box = new THREE.Box3().setFromObject(room)
+        const size =
+          box.getSize(new THREE.Vector3())
 
-        const size = box.getSize(
-          new THREE.Vector3()
-        )
-
-        const center = box.getCenter(
-          new THREE.Vector3()
-        )
-
-
-        // Flytt modellen slik at den står
-        // rundt et ryddig koordinatsystem
+        const center =
+          box.getCenter(new THREE.Vector3())
 
         room.position.x -= center.x
         room.position.y -= box.min.y
         room.position.z -= center.z
-
-
-        // --------------------------------------------------
-        // NORMALISER STØRRELSEN
-        // --------------------------------------------------
 
         const maxSize = Math.max(
           size.x,
@@ -347,33 +412,17 @@ function Scene() {
           size.z
         )
 
-        const scale = 10 / maxSize
+        const roomScale = 10 / maxSize
+        room.scale.setScalar(roomScale)
 
-        room.scale.setScalar(scale)
-
-
-        // Oppdater modellen
         room.updateMatrixWorld(true)
-
-
-        // --------------------------------------------------
-        // STARTPOSISJON FOR KAMERA
-        // --------------------------------------------------
-
-        camera.position.set(
-          -7,
-          3,
-          -1.7
-        )
-
-        yaw = Math.PI / 2
-        pitch = 0
 
         // --------------------------------------------------
         // PIL
         // --------------------------------------------------
 
         const shape = new THREE.Shape()
+
         shape.moveTo(0, 0.1)
         shape.lineTo(0.1, -0.1)
         shape.lineTo(0, -0.05)
@@ -382,7 +431,9 @@ function Scene() {
 
         arrow = new THREE.Mesh(
           new THREE.ShapeGeometry(shape),
-          new THREE.MeshBasicMaterial({ color: 0xffffff })
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff
+          })
         )
 
         arrow.rotation.x = -Math.PI / 2
@@ -397,10 +448,62 @@ function Scene() {
 
         scene.add(arrow)
 
+        // --------------------------------------------------
+        // PIL2
+        // --------------------------------------------------
 
-        console.log(
-          'LO-FI ROOM LOADED'
+        arrow2 = new THREE.Group()
+
+        const shaftGeometry =
+          new THREE.CylinderGeometry(
+            0.035,
+            0.035,
+            0.35,
+            8
+          )
+
+        const arrowMaterial =
+          new THREE.MeshBasicMaterial({
+            color: 0xffffff
+          })
+
+        const shaft = new THREE.Mesh(
+          shaftGeometry,
+          arrowMaterial
         )
+
+        shaft.position.y = -0.05
+
+        const headGeometry =
+          new THREE.ConeGeometry(
+            0.1,
+            0.2,
+            8
+          )
+
+        const head = new THREE.Mesh(
+          headGeometry,
+          arrowMaterial
+        )
+
+        head.position.y = 0.2
+
+        arrow2.add(shaft)
+        arrow2.add(head)
+
+        arrow2.position.set(
+          -5.307496631573862,
+          3,
+          3.2300192537684715
+        )
+
+        arrow2.rotation.x = Math.PI
+        arrow2.rotation.y = 0
+        arrow2.rotation.z = 0
+
+        scene.add(arrow2)
+
+        console.log('LO-FI ROOM LOADED')
       },
 
       undefined,
@@ -414,7 +517,7 @@ function Scene() {
     )
 
     // --------------------------------------------------
-    // HENT KAMERAPOSISJON FRA CONSOLE
+    // KAMERAPOSISJON
     // --------------------------------------------------
 
     function getCameraPosition() {
@@ -425,21 +528,25 @@ function Scene() {
       }
     }
 
-    window.getCameraPosition = getCameraPosition
-
+    window.getCameraPosition =
+      getCameraPosition
 
     // --------------------------------------------------
-    // ANIMASJON OG BEVEGELSE
+    // ANIMASJON
     // --------------------------------------------------
 
     const clock = new THREE.Clock()
+
+    const arrowStartY = {
+      arrow: null,
+      arrow2: null
+    }
 
     function animate() {
       const delta = Math.min(
         clock.getDelta(),
         0.05
       )
-
 
       // Hastighet
       let speed = 2.5
@@ -450,7 +557,6 @@ function Scene() {
       ) {
         speed = 5
       }
-
 
       // Retning
       const direction = new THREE.Vector3()
@@ -476,15 +582,13 @@ function Scene() {
         }
       }
 
-
-      // Hvis spilleren beveger seg
+      // Bevegelse
       if (direction.length() > 0) {
         direction.normalize()
 
-        const movement = new THREE.Vector3()
+        const movement =
+          new THREE.Vector3()
 
-
-        // Bevegelse basert på kameraets yaw
         movement.x =
           direction.x * Math.cos(yaw) +
           direction.z * Math.sin(yaw)
@@ -493,37 +597,59 @@ function Scene() {
           -direction.x * Math.sin(yaw) +
           direction.z * Math.cos(yaw)
 
-
         camera.position.addScaledVector(
           movement,
           speed * delta
         )
       }
 
-
       // Kameraets rotasjon
       camera.rotation.order = 'YXZ'
-
       camera.rotation.y = yaw
       camera.rotation.x = pitch
 
-
-      // Tegn scenen
-      renderer.render(
-        scene,
-        camera
-      )
+      // Flytende piler
+      const time = Date.now() * 0.004
 
       if (arrow) {
-        arrow.position.y += Math.sin(Date.now() * 0.004) * 0.001
+        if (arrowStartY.arrow === null) {
+          arrowStartY.arrow =
+            arrow.position.y
+        }
+
+        arrow.position.y =
+          arrowStartY.arrow +
+          Math.sin(time) * 0.02
       }
+
+      if (arrow2) {
+        if (arrowStartY.arrow2 === null) {
+          arrowStartY.arrow2 =
+            arrow2.position.y
+        }
+
+        arrow2.position.y =
+          arrowStartY.arrow2 +
+          Math.sin(time) * 0.03
+      }
+
+      // Hover-størrelse
+      if (arrow) {
+        arrow.scale.setScalar(
+          hoveredArrow === arrow ? 1.2 : 1
+        )
+      }
+
+      if (arrow2) {
+        arrow2.scale.setScalar(
+          hoveredArrow === arrow2 ? 1.2 : 1
+        )
+      }
+
+      renderer.render(scene, camera)
     }
 
-
-    renderer.setAnimationLoop(
-      animate
-    )
-
+    renderer.setAnimationLoop(animate)
 
     // --------------------------------------------------
     // RESIZE
@@ -547,12 +673,85 @@ function Scene() {
       handleResize
     )
 
+    // --------------------------------------------------
+    // CLEANUP
+    // --------------------------------------------------
+
+    return function () {
+      window.removeEventListener(
+        'keydown',
+        keyDown
+      )
+
+      window.removeEventListener(
+        'keyup',
+        keyUp
+      )
+
+      window.removeEventListener(
+        'pointermove',
+        pointerMove
+      )
+
+      window.removeEventListener(
+        'pointermove',
+        updateArrowHover
+      )
+
+      window.removeEventListener(
+        'pointerup',
+        pointerUp
+      )
+
+      window.removeEventListener(
+        'resize',
+        handleResize
+      )
+
+      renderer.domElement.removeEventListener(
+        'pointerdown',
+        pointerDown
+      )
+
+      renderer.domElement.removeEventListener(
+        'click',
+        arrowClick
+      )
+
+      joystick.removeEventListener(
+        'touchstart',
+        joystickStart
+      )
+
+      joystick.removeEventListener(
+        'touchmove',
+        joystickMove
+      )
+
+      joystick.removeEventListener(
+        'touchend',
+        joystickEnd
+      )
+
+      if (joystick.parentNode) {
+        joystick.parentNode.removeChild(joystick)
+      }
+
+      renderer.setAnimationLoop(null)
+
+      if (renderer.domElement.parentNode) {
+        renderer.domElement.parentNode.removeChild(
+          renderer.domElement
+        )
+      }
+
+      renderer.dispose()
+
+      delete window.getCameraPosition
+    }
   }, [])
 
-
-  return (
-    <div ref={containerRef} />
-  )
+  return <div ref={containerRef} />
 }
 
 export default Scene

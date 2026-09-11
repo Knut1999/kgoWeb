@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Scene from './Scene'
+import Scene from './Scene/Scene'
 import Skrivebord from './Skrivebord'
 
 function App() {
