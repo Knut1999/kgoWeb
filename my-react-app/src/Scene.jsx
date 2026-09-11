@@ -24,7 +24,7 @@ function Scene() {
     let fov = 70
 
     if ('ontouchstart' in window) {
-      fov = 85
+      fov = 95
     }
 
     const camera = new THREE.PerspectiveCamera(
