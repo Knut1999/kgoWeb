@@ -1,4 +1,3 @@
-import '98.css'
 import './Skrivebord.css'
 
 function Skrivebord() {
