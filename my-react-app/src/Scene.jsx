@@ -102,6 +102,7 @@ function Scene() {
     let pitch = 0
 
     const mouseSensitivity = 0.0006
+    const touchSensitivity = 0.0035
 
 
     // --------------------------------------------------
@@ -156,8 +157,13 @@ function Scene() {
       previousMouseX = event.clientX
       previousMouseY = event.clientY
 
-      yaw -= (-movementX) * mouseSensitivity
-      pitch -= (-movementY) * mouseSensitivity
+      const sensitivity =
+        event.pointerType === 'touch'
+          ? touchSensitivity
+          : mouseSensitivity
+
+      yaw -= (-movementX) * sensitivity
+      pitch -= (-movementY) * sensitivity
 
       pitch = Math.max(
         -Math.PI / 2 + 0.05,
