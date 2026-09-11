@@ -2,6 +2,18 @@
   box-sizing: border-box;
 }
 
+@media (max-width: 600px) {
+  .monitor {
+    padding: 15px;
+  }
+
+  .screen {
+    transform: scale(0.9);
+    width: 111%;
+    height: 111%;
+  }
+}
+
 body {
   margin: 0;
   background: #222;
