@@ -1,3 +1,4 @@
+//et av mine første prosjekter :)
 import { useEffect, useRef } from 'react'
 import './Spill.css'
 
