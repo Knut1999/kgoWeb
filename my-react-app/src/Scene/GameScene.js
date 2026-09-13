@@ -77,6 +77,13 @@ class GameScene {
     }
   }
 
+  movePos(movement,speed,delta) {
+    this.camera.position.addScaledVector(
+      movement,
+      speed * delta
+    )
+  }
+
 }
 
 export default GameScene

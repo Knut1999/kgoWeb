@@ -8,6 +8,8 @@ class Arrows {
 
     this.arrow = null
     this.arrow2 = null
+    this.arrowHitbox = null
+    this.arrow2Hitbox = null
     this.hoveredArrow = null
 
     this.arrowStartY = null
@@ -67,6 +69,25 @@ class Arrows {
 
     this.scene.add(this.arrow)
 
+    // STØRRE HITBOX PIL
+    this.arrowHitbox = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.8, 0.8),
+      new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0
+      })
+    )
+
+    this.arrowHitbox.position.copy(
+      this.arrow.position
+    )
+
+    this.arrowHitbox.rotation.copy(
+      this.arrow.rotation
+    )
+
+    this.scene.add(this.arrowHitbox)
+
     // --------------------------------------------------
     // PIL2
     // --------------------------------------------------
@@ -121,6 +142,25 @@ class Arrows {
     this.arrow2.rotation.z = 0
 
     this.scene.add(this.arrow2)
+
+    // STØRRE HITBOX PIL2
+    this.arrow2Hitbox = new THREE.Mesh(
+      new THREE.PlaneGeometry(0.8, 0.8),
+      new THREE.MeshBasicMaterial({
+        transparent: true,
+        opacity: 0
+      })
+    )
+
+    this.arrow2Hitbox.position.copy(
+      this.arrow2.position
+    )
+
+    this.arrow2Hitbox.rotation.copy(
+      this.arrow2.rotation
+    )
+
+    this.scene.add(this.arrow2Hitbox)
   }
 
   updateArrowHover(event) {
@@ -137,44 +177,38 @@ class Arrows {
 
     this.hoveredArrow = null
 
-    const arrows = []
+    const hitboxes = []
 
-    if (this.arrow) {
-      arrows.push(this.arrow)
+    if (this.arrowHitbox) {
+      hitboxes.push(this.arrowHitbox)
     }
 
-    if (this.arrow2) {
-      arrows.push(this.arrow2)
-    }
-
-    if (arrows.length === 0) {
-      return
+    if (this.arrow2Hitbox) {
+      hitboxes.push(this.arrow2Hitbox)
     }
 
     const intersects =
       this.raycaster.intersectObjects(
-        arrows,
-        true
+        hitboxes
       )
 
     if (intersects.length === 0) {
       return
     }
 
-    let object = intersects[0].object
+    if (
+      intersects[0].object ===
+      this.arrowHitbox
+    ) {
+      this.hoveredArrow = this.arrow
+      return
+    }
 
-    while (object) {
-      if (object === this.arrow) {
-        this.hoveredArrow = this.arrow
-        return
-      }
-
-      if (object === this.arrow2) {
-        this.hoveredArrow = this.arrow2
-        return
-      }
-
-      object = object.parent
+    if (
+      intersects[0].object ===
+      this.arrow2Hitbox
+    ) {
+      this.hoveredArrow = this.arrow2
     }
   }
 
@@ -190,16 +224,29 @@ class Arrows {
       this.camera
     )
 
-    if (!this.arrow) {
-      return
+    const hitboxes = []
+
+    if (this.arrowHitbox) {
+      hitboxes.push(this.arrowHitbox)
+    }
+
+    if (this.arrow2Hitbox) {
+      hitboxes.push(this.arrow2Hitbox)
     }
 
     const intersects =
-      this.raycaster.intersectObject(
-        this.arrow
+      this.raycaster.intersectObjects(
+        hitboxes
       )
 
-    if (intersects.length > 0) {
+    if (intersects.length === 0) {
+      return
+    }
+
+    if (
+      intersects[0].object ===
+      this.arrowHitbox
+    ) {
       window.location.href = '/Skrivebord'
     }
   }
@@ -242,5 +289,6 @@ class Arrows {
     }
   }
 }
+
 
 export default Arrows

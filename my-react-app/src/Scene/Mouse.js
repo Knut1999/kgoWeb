@@ -9,8 +9,8 @@ class Mouse {
     this.previousMouseX = 0
     this.previousMouseY = 0
 
-    this.mouseSensitivity = 0.0007
-    this.touchSensitivity = 0.0035
+    this.mouseSensitivity = 0.0015
+    this.touchSensitivity = 0.0065
 
     this.pointerDown =
       this.pointerDown.bind(this)

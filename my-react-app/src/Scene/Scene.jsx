@@ -17,8 +17,10 @@ function Scene() {
     const container = containerRef.current
 
     // SCENE
+    // Lager en Scene som vi senere kobler 3d glb filen til
     const gs = new GameScene(container)
-
+    //for å bruke funksjon fra console
+    window.gs = gs
     // KAMERA
     const cameraController = new CameraController()
 
@@ -56,9 +58,7 @@ function Scene() {
     const room = new Room(gs.scene) 
     room.load()
 
-    // --------------------------------------------------
     // ANIMASJON
-    // --------------------------------------------------
 
     const clock = new THREE.Clock()
 
@@ -127,10 +127,22 @@ function Scene() {
           direction.z *
             Math.cos(cameraController.yaw)
 
-        gs.camera.position.addScaledVector(
-          movement,
-          speed * delta
-        )
+        const posBef = gs.getCameraPosition()
+        gs.movePos(movement, speed, delta)
+
+        //Gå opp i senga
+        if(gs.getCameraPosition().x < -8 || 
+            gs.getCameraPosition().x > -2 ||
+            gs.getCameraPosition().z < -4 ||
+            gs.getCameraPosition().z > 3.8) {
+          gs.camera.position.set(posBef.x, posBef.y, posBef.z)
+        }
+        if(gs.getCameraPosition().x > -3.9 &&
+            gs.getCameraPosition().z < 0.5) {
+          gs.camera.position.y = 3.3
+        } else {
+          gs.camera.position.y = 3
+        }
       }
 
       // Kameraets rotasjon
