@@ -81,6 +81,15 @@ class Mouse {
       )
     )
   }
+
+  disable() {
+    this.mouseSensitivity = 0
+    this.touchSensitivity = 0
+  }  
+  enable() {
+    this.mouseSensitivity = 0.0015
+    this.touchSensitivity = 0.0065
+  }
 }
 
 export default Mouse

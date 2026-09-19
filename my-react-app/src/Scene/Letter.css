@@ -1,0 +1,122 @@
+.letter {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(-1deg);
+
+  width: min(560px, 90vw);
+  max-height: 85vh;
+  overflow-y: auto;
+
+  padding: clamp(35px, 7vw, 70px) clamp(30px, 8vw, 75px);
+
+  box-sizing: border-box;
+
+  background:
+    radial-gradient(
+      ellipse at center,
+      rgba(255, 255, 255, 0.35),
+      transparent 70%
+    ),
+    #e9ddc2;
+
+  color: #30291f;
+
+  font-family: Georgia, 'Times New Roman', serif;
+
+  border: 1px solid #b9a886;
+
+  box-shadow:
+    0 25px 60px rgba(0, 0, 0, 0.45),
+    0 5px 15px rgba(0, 0, 0, 0.2),
+    inset 0 0 45px rgba(80, 55, 25, 0.12);
+
+  z-index: 1000;
+
+  animation: letterAppear 0.35s ease-out;
+}
+
+.letter::before {
+  content: '';
+  position: absolute;
+  inset: 12px;
+  border: 1px solid rgba(90, 70, 40, 0.18);
+  pointer-events: none;
+}
+
+.letter::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 3px,
+      rgba(80, 60, 30, 0.015) 4px
+    );
+
+  pointer-events: none;
+}
+
+.letter h2 {
+  margin: 0 0 35px;
+
+  text-align: center;
+
+  font-size: clamp(24px, 6vw, 32px);
+  font-weight: normal;
+  font-style: italic;
+}
+
+.letter p {
+  margin: 0 0 22px;
+
+  font-size: clamp(15px, 4vw, 18px);
+  line-height: 1.8;
+}
+
+.letter .signature {
+  margin-top: 40px;
+  font-style: italic;
+}
+
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 15px;
+
+  border: none;
+  background: transparent;
+
+  color: #665643;
+
+  font-family: Georgia, serif;
+  font-size: 28px;
+
+  cursor: pointer;
+}
+
+.close-button:hover {
+  color: #1f1811;
+  transform: rotate(90deg);
+}
+
+@keyframes letterAppear {
+  from {
+    opacity: 0;
+    transform:
+      translate(-50%, -47%)
+      rotate(-4deg)
+      scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform:
+      translate(-50%, -50%)
+      rotate(-1deg)
+      scale(1);
+  }
+}

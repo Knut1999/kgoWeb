@@ -1,10 +1,11 @@
 import * as THREE from 'three'
 
 class Arrows {
-  constructor(scene, renderer, camera) {
+  constructor(scene, renderer, camera, letter) {
     this.scene = scene
     this.renderer = renderer
     this.camera = camera
+    this.letter = letter
 
     this.arrow = null
     this.arrow2 = null
@@ -248,6 +249,10 @@ class Arrows {
       this.arrowHitbox
     ) {
       window.location.href = '/Skrivebord'
+    }    
+    //LETTER
+    if (intersects[0].object === this.arrow2Hitbox) {
+      this.letter.show()
     }
   }
 

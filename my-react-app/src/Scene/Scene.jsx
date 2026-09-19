@@ -9,6 +9,7 @@ import Mouse from './Mouse'
 import Arrows from './Arrows'
 import JoyStick from './JoyStick'
 import Room from './Room'
+import Letter from './Letter'
 
 function Scene() {
   const containerRef = useRef(null)
@@ -41,18 +42,25 @@ function Scene() {
       gs.renderer,
       cameraController
     )
+    
+    // LETTER
+
+    const letter = new Letter(mouseObject)
+    
 
     // ARROW-INTERAKSJON
-
+    
     const arrows = new Arrows(
       gs.scene,
       gs.renderer,
-      gs.camera
+      gs.camera,
+      letter
     )
 
     // MOBIL JOYSTICK
-
+    
     const joystick = new JoyStick()
+
 
     // BLENDER-MODELL OG PILER
     const room = new Room(gs.scene) 
