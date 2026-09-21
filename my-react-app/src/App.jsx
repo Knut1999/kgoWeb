@@ -1,6 +1,6 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import Scene from './Scene/Scene'
-import Skrivebord from './Skrivebord'
+import Skrivebord from './skrivebord/Skrivebord'
 
 function App() {
   return (

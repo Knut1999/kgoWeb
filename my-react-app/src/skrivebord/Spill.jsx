@@ -1,6 +1,7 @@
 //et av mine første prosjekter :)
 import { useEffect, useRef } from 'react'
 import './Spill.css'
+import tegn_brett from './super3inRow'
 
 function Spill() {
   const canvasRef = useRef(null)
@@ -15,6 +16,7 @@ function Spill() {
     canvas.width = inner_firkant * 3
     canvas.height = inner_firkant * 3
 
+    
     function tegn_brett() {
       c.strokeStyle = 'black'
 
@@ -46,7 +48,6 @@ function Spill() {
       }
     }
 
-    tegn_brett()
 
     const mouse = {
       x: null,
