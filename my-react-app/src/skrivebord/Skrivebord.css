@@ -359,6 +359,26 @@ body {
   font-size: 13px;
 }
 
+.computer-task {
+  display: block;
+  width: 100%;
+  padding: 4px 5px;
+  border: 0;
+  color: inherit;
+  background: transparent;
+  font: inherit;
+  text-align: left;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.computer-task:hover,
+.computer-task:focus-visible {
+  color: white;
+  background: #000080;
+  outline: none;
+}
+
 .computer-main {
   flex: 1;
   padding: 18px 16px;
@@ -394,20 +414,110 @@ body {
   text-transform: uppercase;
 }
 
-.computer-projects h4 {
-  margin: 0 0 12px;
+.contact-overlay {
+  position: absolute;
+  inset: 30px 0 0;
+  z-index: 2;
+  display: grid;
+  place-items: center;
+  padding: 20px;
+  background: rgba(0, 0, 0, 0.32);
 }
 
-.project-row {
+.contact-popup {
+  width: min(350px, 100%);
+  background: #d4d0c8;
+  border: 3px solid;
+  border-color: white #404040 #404040 white;
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.35);
+}
+
+.contact-popup-titlebar {
   display: flex;
   align-items: center;
-  gap: 8px;
-  background: #f5f5f5;
-  border: 1px solid #b7b7b7;
-  padding: 8px 10px;
-  margin-bottom: 8px;
-  width: fit-content;
-  min-width: 180px;
+  justify-content: space-between;
+  min-height: 30px;
+  padding: 3px 5px;
+  color: white;
+  background: #000080;
+  font-weight: bold;
+}
+
+.contact-popup-titlebar button {
+  width: 24px;
+  height: 23px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.contact-popup-content {
+  padding: 24px 22px 20px;
+  color: #161616;
+  text-align: center;
+}
+
+.contact-avatar {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 12px;
+  border: 2px solid;
+  border-color: #404040 white white #404040;
+  color: white;
+  background: #008080;
+  font-size: 21px;
+  font-weight: bold;
+}
+
+.contact-popup-content h3 {
+  margin: 0;
+  font-size: 21px;
+}
+
+.contact-subtitle {
+  margin: 5px 0 18px;
+  color: #4b4b4b;
+}
+
+.contact-details {
+  display: grid;
+  gap: 9px;
+  text-align: left;
+}
+
+.contact-details a {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 10px;
+  color: #000080;
+  background: #efefef;
+  border: 1px solid #999;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.contact-details a:hover,
+.contact-details a:focus-visible {
+  color: white;
+  background: #000080;
+  outline: none;
+}
+
+.contact-details a span:first-child {
+  display: grid;
+  place-items: center;
+  width: 22px;
+  height: 22px;
+  color: white;
+  background: #008080;
+  font-size: 12px;
+}
+
+.contact-close-button {
+  min-width: 76px;
+  margin-top: 18px;
 }
 
 .game-window {

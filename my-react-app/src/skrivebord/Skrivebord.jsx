@@ -11,6 +11,7 @@ function Skrivebord() {
   const [startMenuOpen, setStartMenuOpen] = useState(false)
   const [computerOpen, setComputerOpen] = useState(false)
   const [documentsOpen, setDocumentsOpen] = useState(false)
+  const [contactOpen, setContactOpen] = useState(false)
 
   return (
     <div className="monitor">
@@ -109,9 +110,25 @@ function Skrivebord() {
                 <div className="computer-sidebar-title">System Tasks</div>
                 <ul>
                   <li>System Information</li>
-                  <li>My Projects</li>
-                  <li>GitHub</li>
-                  <li>Contact</li>
+                  <li>
+                    <a
+                      className="computer-task"
+                      href="https://github.com/Knut1999"
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      GitHub
+                    </a>
+                  </li>
+                  <li>
+                    <button
+                      className="computer-task"
+                      type="button"
+                      onClick={() => setContactOpen(true)}
+                    >
+                      Contact
+                    </button>
+                  </li>
                 </ul>
               </aside>
 
@@ -140,22 +157,42 @@ function Skrivebord() {
                   </div>
                 </div>
 
-                <div className="computer-projects">
-                  <h4>Mine mapper</h4>
-                  <div className="project-row">
-                    <span>📁</span>
-                    <span>Portfolio</span>
-                  </div>
-                  <div className="project-row">
-                    <span>📁</span>
-                    <span>Webutvikling</span>
-                  </div>
-                  <div className="project-row">
-                    <span>📁</span>
-                    <span>Kontakt</span>
-                  </div>
-                </div>
               </div>
+
+              {contactOpen && (
+                <div className="contact-overlay" role="presentation">
+                  <section className="contact-popup" role="dialog" aria-modal="true" aria-labelledby="contact-title">
+                    <div className="contact-popup-titlebar">
+                      <span id="contact-title">Contact - Knut Onsøyen</span>
+                      <button type="button" aria-label="Close contact" onClick={() => setContactOpen(false)}>
+                        ×
+                      </button>
+                    </div>
+                    <div className="contact-popup-content">
+                      <div className="contact-avatar">KO</div>
+                      <h3>Knut Onsøyen</h3>
+                      <p className="contact-subtitle">Ta gjerne kontakt</p>
+                      <div className="contact-details">
+                        <a href="tel:+4791818616">
+                          <span aria-hidden="true">☎</span>
+                          <span>+47 91818616</span>
+                        </a>
+                        <a
+                          href="https://www.linkedin.com/in/knut-ons%C3%B8yen-ab99a9230/"
+                          target="_blank"
+                          rel="noreferrer"
+                        >
+                          <span aria-hidden="true">in</span>
+                          <span>LinkedIn-profil</span>
+                        </a>
+                      </div>
+                      <button className="contact-close-button" type="button" onClick={() => setContactOpen(false)}>
+                        Close
+                      </button>
+                    </div>
+                  </section>
+                </div>
+              )}
             </div>
           </div>
         )}
