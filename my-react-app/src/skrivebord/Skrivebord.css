@@ -321,6 +321,97 @@ body {
   z-index: 10;
 }
 
+.settings-window {
+  position: absolute;
+  top: 90px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: min(560px, 86%);
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: white #404040 #404040 white;
+  z-index: 11;
+}
+
+.settings-titlebar {
+  height: 30px;
+  padding: 3px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #000080;
+  color: white;
+  font-weight: bold;
+}
+
+.settings-titlebar button {
+  width: 24px;
+  height: 23px;
+  padding: 0;
+  font-weight: bold;
+}
+
+.settings-content {
+  padding: 18px;
+  color: #111;
+  background: #d4d0c8;
+}
+
+.settings-content h3 {
+  margin: 0 0 5px;
+  font-size: 20px;
+}
+
+.settings-content p {
+  margin: 0 0 15px;
+  font-size: 13px;
+}
+
+.wallpaper-options {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.wallpaper-option {
+  min-width: 0;
+  padding: 4px;
+  border: 2px solid;
+  border-color: white #404040 #404040 white;
+  background: #c0c0c0;
+  color: #111;
+  cursor: pointer;
+  font: inherit;
+  text-align: left;
+}
+
+.wallpaper-option.selected {
+  border-color: #000080;
+  outline: 2px dotted #000080;
+  outline-offset: -5px;
+}
+
+.wallpaper-option img {
+  display: block;
+  width: 100%;
+  aspect-ratio: 16 / 10;
+  object-fit: cover;
+  margin-bottom: 6px;
+}
+
+.wallpaper-option span {
+  display: block;
+  padding: 0 3px 3px;
+  font-size: 12px;
+}
+
+.wallpaper-option:hover,
+.wallpaper-option:focus-visible {
+  background: #000080;
+  color: white;
+  outline: none;
+}
+
 .computer-titlebar,
 .game-titlebar {
   height: 30px;

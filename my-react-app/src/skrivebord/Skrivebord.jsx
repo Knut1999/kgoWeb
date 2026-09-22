@@ -12,6 +12,14 @@ function Skrivebord() {
   const [computerOpen, setComputerOpen] = useState(false)
   const [documentsOpen, setDocumentsOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
+  const [settingsOpen, setSettingsOpen] = useState(false)
+  const [wallpaper, setWallpaper] = useState('/lisWallpaper.webp')
+
+  const wallpapers = [
+    { name: 'Lofi room', src: '/lisWallpaper.webp' },
+    { name: 'Wallpaper 2', src: '/wallpaper2.jpeg' },
+    { name: 'Wallpaper 3', src: '/wallpaper3.webp' },
+  ]
 
   const openInternetExplorer = () => {
     window.open('https://www.google.com', '_blank', 'noopener,noreferrer')
@@ -23,7 +31,7 @@ function Skrivebord() {
 
         <img
           className="wallpaper"
-          src="/lisWallpaper.webp"
+          src={wallpaper}
           alt=""
         />
 
@@ -205,22 +213,63 @@ function Skrivebord() {
           <Documents onClose={() => setDocumentsOpen(false)} />
         )}
 
+        {settingsOpen && (
+          <div className="settings-window">
+            <div className="settings-titlebar">
+              <span>Settings</span>
+              <button type="button" onClick={() => setSettingsOpen(false)}>
+                ×
+              </button>
+            </div>
+
+            <div className="settings-content">
+              <h3>Desktop wallpaper</h3>
+              <p>Choose a wallpaper for your desktop.</p>
+
+              <div className="wallpaper-options">
+                {wallpapers.map((item) => (
+                  <button
+                    className={`wallpaper-option${wallpaper === item.src ? ' selected' : ''}`}
+                    type="button"
+                    key={item.src}
+                    aria-pressed={wallpaper === item.src}
+                    onClick={() => setWallpaper(item.src)}
+                  >
+                    <img src={item.src} alt={item.name} />
+                    <span>{item.name}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          </div>
+        )}
+
         {startMenuOpen && (
           <div className="start-menu">
             <div className="start-menu-banner">Windows 98</div>
 
             <div className="start-menu-items">
-              <button className="start-menu-item" type="button">
-                <span className="start-menu-icon">📂</span>
-                <span>Programs</span>
+              <button
+                className="start-menu-item"
+                type="button"
+                onClick={() => {
+                  setSpillOpen(true)
+                  setGameMode(null)
+                  setStartMenuOpen(false)
+                }}
+              >
+                <span className="start-menu-icon">🎮</span>
+                <span>Spill</span>
               </button>
 
-              <button className="start-menu-item" type="button">
-                <span className="start-menu-icon">📄</span>
-                <span>Documents</span>
-              </button>
-
-              <button className="start-menu-item" type="button">
+              <button
+                className="start-menu-item"
+                type="button"
+                onClick={() => {
+                  setSettingsOpen(true)
+                  setStartMenuOpen(false)
+                }}
+              >
                 <span className="start-menu-icon">⚙️</span>
                 <span>Settings</span>
               </button>
