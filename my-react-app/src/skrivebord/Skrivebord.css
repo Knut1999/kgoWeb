@@ -123,6 +123,82 @@ body {
    TASKBAR
    ========================= */
 
+.start-menu {
+  position: absolute;
+  left: 3px;
+  bottom: 37px;
+  z-index: 6;
+
+  display: flex;
+  width: 220px;
+  min-height: 250px;
+
+  background: #c0c0c0;
+  border: 3px solid;
+  border-color: white #404040 #404040 white;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.35);
+}
+
+.start-menu-banner {
+  width: 34px;
+  padding: 8px 5px;
+
+  color: white;
+  background: #000080;
+
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+}
+
+.start-menu-items {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 2px;
+  padding: 7px 5px;
+}
+
+.start-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  min-height: 38px;
+  padding: 5px 8px;
+
+  border: 0;
+  background: transparent;
+
+  font-family: Arial, sans-serif;
+  font-size: 13px;
+  text-align: left;
+  cursor: pointer;
+}
+
+.start-menu-item:hover,
+.start-menu-item:focus-visible {
+  color: white;
+  background: #000080;
+  outline: none;
+}
+
+.start-menu-icon {
+  width: 24px;
+  font-size: 20px;
+  text-align: center;
+}
+
+.start-menu-separator {
+  height: 2px;
+  margin: 5px 2px;
+  border-top: 1px solid #808080;
+  border-bottom: 1px solid white;
+}
+
 .taskbar {
   position: absolute;
 
@@ -205,8 +281,132 @@ body {
 }
 
 /* =========================
-   SPILLVINDU
+   KJØR KOMPISER / VINDUER
    ========================= */
+
+.computer-window {
+  position: absolute;
+
+  top: 50px;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  width: min(700px, 86%);
+  height: min(480px, 75%);
+
+  background: #c0c0c0;
+
+  border: 3px solid;
+  border-color: white #404040 #404040 white;
+
+  z-index: 10;
+}
+
+.computer-titlebar,
+.game-titlebar {
+  height: 30px;
+
+  background: #000080;
+  color: white;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 3px 5px;
+
+  font-weight: bold;
+}
+
+.computer-titlebar button,
+.game-titlebar button {
+  width: 24px;
+  height: 23px;
+
+  padding: 0;
+
+  font-weight: bold;
+}
+
+.computer-content {
+  display: flex;
+  height: calc(100% - 30px);
+  background: #d4d0c8;
+}
+
+.computer-sidebar {
+  width: 180px;
+  background: #d4d0c8;
+  border-right: 2px solid #808080;
+  padding: 12px 10px;
+}
+
+.computer-sidebar-title {
+  font-weight: bold;
+  margin-bottom: 10px;
+  color: #111;
+}
+
+.computer-sidebar ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  color: #262626;
+  font-size: 13px;
+}
+
+.computer-main {
+  flex: 1;
+  padding: 18px 16px;
+  color: #101010;
+}
+
+.computer-main h3 {
+  margin: 0 0 16px;
+  font-size: 22px;
+}
+
+.computer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(120px, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.computer-card {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 10px;
+  background: #efefef;
+  border: 1px solid #b0b0b0;
+}
+
+.computer-label {
+  font-size: 11px;
+  color: #444;
+  text-transform: uppercase;
+}
+
+.computer-projects h4 {
+  margin: 0 0 12px;
+}
+
+.project-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f5f5f5;
+  border: 1px solid #b7b7b7;
+  padding: 8px 10px;
+  margin-bottom: 8px;
+  width: fit-content;
+  min-width: 180px;
+}
 
 .game-window {
   position: absolute;
@@ -266,14 +466,35 @@ body {
 @media (max-width: 600px) {
 
   .monitor {
-    padding: 15px;
+    padding: 8px;
   }
 
   .screen {
-    transform: scale(0.9);
+    transform: scale(0.8);
 
-    width: 111%;
-    height: 111%;
+    width: 125%;
+    height: 125%;
+  }
+
+  .computer-window {
+    width: 90%;
+    height: 68%;
+
+    top: 54px;
+  }
+
+  .computer-content {
+    flex-direction: column;
+  }
+
+  .computer-sidebar {
+    width: 100%;
+    border-right: none;
+    border-bottom: 2px solid #808080;
+  }
+
+  .computer-grid {
+    grid-template-columns: 1fr;
   }
 
   .game-window {

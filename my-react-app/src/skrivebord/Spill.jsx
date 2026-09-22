@@ -1,7 +1,6 @@
 //et av mine første prosjekter :)
 import { useEffect, useRef } from 'react'
 import './Spill.css'
-import tegn_brett from './super3inRow'
 
 function Spill({ gameMode }) {
   const canvasRef = useRef(null)
