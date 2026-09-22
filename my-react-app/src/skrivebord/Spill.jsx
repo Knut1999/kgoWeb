@@ -3,7 +3,7 @@ import { useEffect, useRef } from 'react'
 import './Spill.css'
 import tegn_brett from './super3inRow'
 
-function Spill() {
+function Spill({ gameMode }) {
   const canvasRef = useRef(null)
 
   useEffect(function () {
@@ -47,7 +47,7 @@ function Spill() {
         }
       }
     }
-
+    tegn_brett()
 
     const mouse = {
       x: null,
@@ -564,6 +564,33 @@ function Spill() {
       tegn_X_O()
       red_squere(liten.liten_rute_x, liten.liten_rute_y)
       tre_paa_rad(bytte)
+
+      if (gameMode === 'singleplayer') {
+        setTimeout(() => {
+          randomMove()
+          console.log("randommove")
+        }, 500)
+      }
+    }
+
+    function randomMove() {
+      while (true) {
+        mouse.x = Math.random() * canvas.width
+        mouse.y = Math.random() * canvas.height
+
+        const stor_rute_nr = Stor_firkant_nr()
+        const riktig = riktig_firkant(stor_rute_nr)
+
+        if (riktig) {
+          const liten = liten_firkant_nr()
+
+          tegn_X_O()
+          red_squere(liten.liten_rute_x, liten.liten_rute_y)
+          tre_paa_rad(bytte)
+
+          break
+        }
+      }
     }
 
     canvas.addEventListener('click', handleClick)

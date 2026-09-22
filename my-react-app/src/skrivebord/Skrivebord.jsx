@@ -4,6 +4,7 @@ import { useState } from 'react'
 
 function Skrivebord() {
   const [spillOpen, setSpillOpen] = useState(false)
+  const [gameMode, setGameMode] = useState(null)
 
   return (
     <div className="monitor">
@@ -19,7 +20,7 @@ function Skrivebord() {
 
           <div
             className="desktop-icon"
-            onDoubleClick={() => setSpillOpen(true)}
+            onClick={() => setSpillOpen(true)}
           >
             <div className="desktop-icon-image">🎮</div>
             <span>Spill</span>
@@ -52,13 +53,32 @@ function Skrivebord() {
             <div className="game-titlebar">
               <span>Ultimate Tic-Tac-Toe</span>
 
-              <button onClick={() => setSpillOpen(false)}>
+              <button
+                onClick={() => {
+                  setSpillOpen(false)
+                  setGameMode(null)
+                }}
+              >
                 ×
               </button>
             </div>
 
             <div className="game-content">
-              <Spill />
+              {gameMode === null ? (
+                <div className="game-menu">
+                  <h2>Ultimate Tic-Tac-Toe</h2>
+
+                  <button onClick={() => setGameMode('singleplayer')}>
+                    Singleplayer
+                  </button>
+
+                  <button onClick={() => setGameMode('friend')}>
+                    Play with friend
+                  </button>
+                </div>
+              ) : (
+                <Spill gameMode={gameMode} />
+              )}
             </div>
           </div>
         )}
