@@ -150,8 +150,92 @@
 }
 
 @media (max-width: 620px) {
+  .documents-window {
+    top: 12px;
+    width: calc(100% - 16px);
+    height: calc(100% - 24px);
+  }
+
+  .documents-titlebar {
+    height: 28px;
+  }
+
+  .documents-content {
+    height: calc(100% - 28px);
+    flex-direction: column;
+  }
+
+  .documents-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px 6px;
+    width: 100%;
+    padding: 6px;
+    border-right: 0;
+    border-bottom: 2px solid #808080;
+  }
+
+  .documents-path {
+    grid-column: 1 / -1;
+    margin-bottom: 2px;
+  }
+
+  .document-file {
+    min-width: 0;
+    padding: 5px 3px;
+    gap: 4px;
+    font-size: 11px;
+  }
+
+  .document-file-icon {
+    font-size: 17px;
+  }
+
+  .document-preview {
+    min-height: 0;
+    padding: 8px;
+  }
+
+  .document-page {
+    min-height: 100%;
+    padding: 14px;
+    font-size: 14px;
+    line-height: 1.45;
+  }
+
+  .document-page h2 {
+    margin-bottom: 12px;
+    font-size: 20px;
+  }
+
+  .document-page p {
+    margin-bottom: 11px;
+  }
+
   .skills-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 6px;
+    margin-top: 16px;
+  }
+
+  .skill-box {
+    min-height: 34px;
+    padding: 6px 7px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 380px) {
+  .documents-list {
+    grid-template-columns: 1fr;
+  }
+
+  .documents-path {
+    grid-column: auto;
+  }
+
+  .skills-grid {
+    grid-template-columns: 1fr;
   }
 }
 
