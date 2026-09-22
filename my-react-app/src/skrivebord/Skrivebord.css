@@ -126,7 +126,7 @@ body {
 .start-menu {
   position: absolute;
   left: 3px;
-  bottom: 37px;
+  bottom: 47px;
   z-index: 6;
 
   display: flex;
@@ -206,7 +206,7 @@ body {
   left: 0;
   right: 0;
 
-  height: 38px;
+  height: 48px;
 
   background: #c0c0c0;
 
@@ -221,10 +221,10 @@ body {
 }
 
 .start-button {
-  height: 30px;
+  height: 40px;
 
   font-weight: bold;
-  font-size: 13px;
+  font-size: 15px;
 
   display: flex;
   align-items: center;
@@ -233,12 +233,12 @@ body {
 }
 
 .windows-logo {
-  font-size: 18px;
+  font-size: 23px;
 }
 
 .taskbar-divider {
   width: 2px;
-  height: 28px;
+  height: 38px;
 
   border-left: 1px solid #808080;
   border-right: 1px solid white;
@@ -253,7 +253,25 @@ body {
 
   padding-left: 8px;
 
-  font-size: 18px;
+  font-size: 22px;
+}
+
+.quick-launch-button {
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  font-size: 22px;
+  cursor: pointer;
+}
+
+.quick-launch-button:hover,
+.quick-launch-button:focus-visible {
+  background: #000080;
+  outline: none;
 }
 
 .taskbar-space {
@@ -261,7 +279,7 @@ body {
 }
 
 .system-tray {
-  height: 28px;
+  height: 38px;
 
   border-top: 2px solid #808080;
   border-left: 2px solid #808080;

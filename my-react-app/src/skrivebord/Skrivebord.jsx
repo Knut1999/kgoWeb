@@ -13,6 +13,10 @@ function Skrivebord() {
   const [documentsOpen, setDocumentsOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
 
+  const openInternetExplorer = () => {
+    window.open('https://www.google.com', '_blank', 'noopener,noreferrer')
+  }
+
   return (
     <div className="monitor">
       <div className="screen">
@@ -49,7 +53,7 @@ function Skrivebord() {
             <span>Mine dokumenter</span>
           </div>
 
-          <div className="desktop-icon">
+          <div className="desktop-icon" onClick={openInternetExplorer}>
             <div className="desktop-icon-image">🌐</div>
             <span>Internet Explorer</span>
           </div>
@@ -249,8 +253,33 @@ function Skrivebord() {
           <div className="taskbar-divider" />
 
           <div className="quick-launch">
-            <span>🌐</span>
-            <span>📁</span>
+            <button
+              type="button"
+              className="quick-launch-button"
+              title="Min datamaskin"
+              aria-label="Åpne Min datamaskin"
+              onClick={() => setComputerOpen(true)}
+            >
+              💻
+            </button>
+            <button
+              type="button"
+              className="quick-launch-button"
+              title="Mine dokumenter"
+              aria-label="Åpne Mine dokumenter"
+              onClick={() => setDocumentsOpen(true)}
+            >
+              📁
+            </button>
+            <button
+              type="button"
+              className="quick-launch-button"
+              title="Internet Explorer"
+              aria-label="Åpne Internet Explorer"
+              onClick={openInternetExplorer}
+            >
+              🌐
+            </button>
           </div>
 
           <div className="taskbar-space" />
