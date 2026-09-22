@@ -564,12 +564,13 @@ function Spill({ gameMode }) {
       tegn_X_O()
       red_squere(liten.liten_rute_x, liten.liten_rute_y)
       tre_paa_rad(bytte)
-
-      if (gameMode === 'singleplayer') {
-        setTimeout(() => {
-          randomMove()
-          console.log("randommove")
-        }, 500)
+      if(seier(store_firkanter_tatt_x) === false && seier(store_firkanter_tatt_o) === false){
+        if (gameMode === 'singleplayer') {
+          setTimeout(() => {
+            randomMove()
+            console.log("randommove")
+          }, 500)
+        }
       }
     }
 

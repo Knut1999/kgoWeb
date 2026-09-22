@@ -63,6 +63,7 @@ class Joystick {
   }
 
   joystickStart(event) {
+    
     this.joystickActive = true
     this.joystickMove(event)
   }
