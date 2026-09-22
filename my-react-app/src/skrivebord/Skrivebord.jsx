@@ -1,5 +1,6 @@
 import './Skrivebord.css'
 import Spill from './Spill'
+import Documents from './Documents'
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 
@@ -9,6 +10,7 @@ function Skrivebord() {
   const [gameMode, setGameMode] = useState(null)
   const [startMenuOpen, setStartMenuOpen] = useState(false)
   const [computerOpen, setComputerOpen] = useState(false)
+  const [documentsOpen, setDocumentsOpen] = useState(false)
 
   return (
     <div className="monitor">
@@ -38,7 +40,10 @@ function Skrivebord() {
             <span>Min datamaskin</span>
           </div>
 
-          <div className="desktop-icon">
+          <div
+            className="desktop-icon"
+            onClick={() => setDocumentsOpen(true)}
+          >
             <div className="desktop-icon-image">📁</div>
             <span>Mine dokumenter</span>
           </div>
@@ -153,6 +158,10 @@ function Skrivebord() {
               </div>
             </div>
           </div>
+        )}
+
+        {documentsOpen && (
+          <Documents onClose={() => setDocumentsOpen(false)} />
         )}
 
         {startMenuOpen && (
