@@ -363,6 +363,8 @@ body {
   flex: 1;
   padding: 18px 16px;
   color: #101010;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 .computer-main h3 {
