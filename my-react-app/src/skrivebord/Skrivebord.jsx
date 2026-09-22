@@ -11,6 +11,7 @@ function Skrivebord() {
   const [startMenuOpen, setStartMenuOpen] = useState(false)
   const [computerOpen, setComputerOpen] = useState(false)
   const [documentsOpen, setDocumentsOpen] = useState(false)
+  const [trashOpen, setTrashOpen] = useState(false)
   const [contactOpen, setContactOpen] = useState(false)
   const [settingsOpen, setSettingsOpen] = useState(false)
   const [wallpaper, setWallpaper] = useState('/lisWallpaper.webp')
@@ -66,7 +67,10 @@ function Skrivebord() {
             <span>Internet Explorer</span>
           </div>
 
-          <div className="desktop-icon">
+          <div
+            className="desktop-icon"
+            onClick={() => setTrashOpen(true)}
+          >
             <div className="desktop-icon-image">🗑️</div>
             <span>Papirkurv</span>
           </div>
@@ -211,6 +215,10 @@ function Skrivebord() {
 
         {documentsOpen && (
           <Documents onClose={() => setDocumentsOpen(false)} />
+        )}
+
+        {trashOpen && (
+          <Documents isTrash onClose={() => setTrashOpen(false)} />
         )}
 
         {settingsOpen && (

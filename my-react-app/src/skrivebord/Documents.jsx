@@ -3,37 +3,97 @@ import { LETTER_CONTENT } from './Letter'
 import { SKILLS } from './Skills'
 import { useState } from 'react'
 
-function Documents({ onClose }) {
+function Documents({ onClose, isTrash = false }) {
   const [selectedDocument, setSelectedDocument] = useState(null)
+
+  const discardedTexts = [
+    {
+      id: 'third-person',
+      name: 'om-meg-i-tredjeperson.txt',
+      title: 'Om meg, skrevet av en fortellerstemme',
+      paragraphs: [
+        'Knut satte seg ned for å skrive litt om seg selv.',
+        'Han stirret på dokumentet. Dokumentet stirret tilbake.',
+        'Etter 47 minutter skrev han: "liker å lage ting" og lagret filen i papirkurven.'
+      ]
+    },
+    {
+      id: 'short',
+      name: 'om-meg-kort.txt',
+      title: 'Om meg (kort versjon)',
+      paragraphs: [
+        'Hei, jeg heter Knut.',
+        'Jeg lager nettsider.',
+        'Takk for meg.'
+      ]
+    },
+    {
+      id: 'hero',
+      name: 'om-meg-helt-ærlig.txt',
+      title: 'Om meg, helt ærlig',
+      paragraphs: [
+        'Jeg er en person som liker å lage ting på internett.',
+        'Jeg har også brukt overraskende mye tid på å finne en bedre måte å skrive denne setningen på.',
+        'Konklusjon: fortsatt under utvikling.'
+      ]
+    },
+    {
+      id: 'professional',
+      name: 'om-meg-profesjonell.txt',
+      title: 'Om meg (profesjonell versjon)',
+      paragraphs: [
+        'Jeg er en lidenskapelig problemløser med en sterk interesse for teknologi.',
+        'Jeg trives i dynamiske miljøer og leverer alltid innen rimelig tid, med mindre jeg begynner å pirke på detaljer.',
+        'Denne teksten ble forkastet fordi den hørtes ut som en LinkedIn-post.'
+      ]
+    },
+  ]
+
+  const documentTitle = isTrash ? 'Papirkurv' : 'Mine dokumenter'
+  const documentPath = isTrash ? 'C:\\Papirkurv' : 'C:\\Mine dokumenter'
 
   return (
     <div className="documents-window">
       <div className="documents-titlebar">
-        <span>Mine dokumenter</span>
+        <span>{documentTitle}</span>
         <button type="button" onClick={onClose}>×</button>
       </div>
 
       <div className="documents-content">
         <aside className="documents-list">
-          <div className="documents-path">C:\\Mine dokumenter</div>
+          <div className="documents-path">{documentPath}</div>
 
-          <button
-            className={selectedDocument === 'skills' ? 'document-file selected' : 'document-file'}
-            type="button"
-            onClick={() => setSelectedDocument('skills')}
-          >
-            <span className="document-file-icon">📄</span>
-            <span>mine-skills.txt</span>
-          </button>
+          {isTrash ? discardedTexts.map((document) => (
+            <button
+              className={selectedDocument === document.id ? 'document-file selected' : 'document-file'}
+              type="button"
+              key={document.id}
+              onClick={() => setSelectedDocument(document.id)}
+            >
+              <span className="document-file-icon">📄</span>
+              <span>{document.name}</span>
+            </button>
+          )) : (
+            <>
+              <button
+                className={selectedDocument === 'skills' ? 'document-file selected' : 'document-file'}
+                type="button"
+                onClick={() => setSelectedDocument('skills')}
+              >
+                <span className="document-file-icon">📄</span>
+                <span>mine-skills.txt</span>
+              </button>
 
-          <button
-            className={selectedDocument === 'letter' ? 'document-file selected' : 'document-file'}
-            type="button"
-            onClick={() => setSelectedDocument('letter')}
-          >
-            <span className="document-file-icon">✉️</span>
-            <span>om-meg.txt</span>
-          </button>
+              <button
+                className={selectedDocument === 'letter' ? 'document-file selected' : 'document-file'}
+                type="button"
+                onClick={() => setSelectedDocument('letter')}
+              >
+                <span className="document-file-icon">✉️</span>
+                <span>om-meg.txt</span>
+              </button>
+            </>
+          )}
         </aside>
 
         <article className="document-preview">
@@ -67,6 +127,16 @@ function Documents({ onClose }) {
               </p>
             </div>
           )}
+
+          {isTrash && discardedTexts.map((document) => selectedDocument === document.id && (
+            <div className="document-page letter-page" key={document.id}>
+              <h2>{document.title}</h2>
+              {document.paragraphs.map((paragraph) => (
+                <p key={paragraph}>{paragraph}</p>
+              ))}
+              <p className="document-signature">Status: forkastet</p>
+            </div>
+          ))}
         </article>
       </div>
     </div>
