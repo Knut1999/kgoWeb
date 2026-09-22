@@ -1,12 +1,34 @@
 import './Letter.css'
 
 class Letter {
-  constructor(mouseObject) {
+  constructor(mouseObject, isWelcomeLetter = false) {
     this.element = document.createElement('div')
     this.mouseObject = mouseObject
     this.letterOpen = false
 
-this.element.innerHTML = `
+    const content = isWelcomeLetter ? `
+  <div class="letter">
+    <button class="close-button">×</button>
+
+    <h2>Velkommen</h2>
+
+    <p>
+      Dette er en interaktiv 3D-side hvor du kan gå rundt
+      og trykke på pilene for å utforske.
+    </p>
+
+    <p>
+      Det finnes flere gøyale ting på PC-en, så jeg anbefaler
+      å ta en liten tur rundt og se hva du finner.
+    </p>
+
+    <p class="signature">
+      God utforskning!<br>
+      Hilsen<br>
+      Knut
+    </p>
+  </div>
+` : `
   <div class="letter">
     <button class="close-button">×</button>
 
@@ -38,6 +60,8 @@ this.element.innerHTML = `
     </p>
   </div>
 `
+
+    this.element.innerHTML = content
 
     const closeButton =
       this.element.querySelector('.close-button')

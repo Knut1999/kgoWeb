@@ -46,6 +46,9 @@ function Scene() {
     // LETTER
 
     const letter = new Letter(mouseObject)
+
+    const welcomeLetter = new Letter(mouseObject, true)
+    welcomeLetter.show()
     
 
     // ARROW-INTERAKSJON
