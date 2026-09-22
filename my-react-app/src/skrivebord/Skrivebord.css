@@ -700,6 +700,7 @@ body {
   .taskbar {
     bottom: 48px;
     height: 56px;
+    box-shadow: 0 48px 0 #c0c0c0;
   }
 
   .start-button {

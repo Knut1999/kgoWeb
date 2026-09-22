@@ -75,6 +75,14 @@ function Skrivebord() {
             <span>Papirkurv</span>
           </div>
 
+          <div
+            className="desktop-icon"
+            onClick={() => setSettingsOpen(true)}
+          >
+            <div className="desktop-icon-image">⚙️</div>
+            <span>Settings</span>
+          </div>
+
         </div>
 
         {spillOpen && (
