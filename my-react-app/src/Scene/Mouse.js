@@ -1,11 +1,10 @@
-import * as THREE from 'three'
-
 class Mouse {
   constructor(renderer, cameraController) {
     this.renderer = renderer
     this.cameraController = cameraController
 
     this.isDragging = false
+    this.activePointerId = null
     this.previousMouseX = 0
     this.previousMouseY = 0
 
@@ -21,6 +20,9 @@ class Mouse {
     this.pointerUp =
       this.pointerUp.bind(this)
 
+    this.pointerCancel =
+      this.pointerCancel.bind(this)
+
     this.renderer.domElement.addEventListener(
       'pointerdown',
       this.pointerDown
@@ -35,21 +37,43 @@ class Mouse {
       'pointerup',
       this.pointerUp
     )
+
+    window.addEventListener(
+      'pointercancel',
+      this.pointerCancel
+    )
   }
 
   pointerDown(event) {
+    if (this.activePointerId !== null) {
+      return
+    }
+
     this.isDragging = true
+    this.activePointerId = event.pointerId
 
     this.previousMouseX = event.clientX
     this.previousMouseY = event.clientY
   }
 
-  pointerUp() {
+  pointerUp(event) {
+    if (event.pointerId !== this.activePointerId) {
+      return
+    }
+
     this.isDragging = false
+    this.activePointerId = null
+  }
+
+  pointerCancel(event) {
+    this.pointerUp(event)
   }
 
   pointerMove(event) {
-    if (!this.isDragging) {
+    if (
+      !this.isDragging ||
+      event.pointerId !== this.activePointerId
+    ) {
       return
     }
 
