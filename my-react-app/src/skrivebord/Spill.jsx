@@ -545,11 +545,13 @@ function Spill({ gameMode }) {
       fullt_brett(liste_over_alle_trekk)
     }
 
-    function handleClick(event) {
+    function handlePointerDown(event) {
       const rect = canvas.getBoundingClientRect()
+      const clientX = event.clientX ?? event.touches?.[0]?.clientX ?? 0
+      const clientY = event.clientY ?? event.touches?.[0]?.clientY ?? 0
 
-      mouse.x = event.clientX - rect.left
-      mouse.y = event.clientY - rect.top
+      mouse.x = (clientX - rect.left) * (canvas.width / rect.width)
+      mouse.y = (clientY - rect.top) * (canvas.height / rect.height)
 
       const liten = liten_firkant_nr()
       const stor_rute_nr = Stor_firkant_nr()
@@ -593,7 +595,7 @@ function Spill({ gameMode }) {
       }
     }
 
-    canvas.addEventListener('click', handleClick)
+    canvas.addEventListener('pointerdown', handlePointerDown)
 
     function handleResize() {
       inner_firkant = window.innerWidth < 600 ? 70 : 100
@@ -608,7 +610,7 @@ function Spill({ gameMode }) {
     window.addEventListener('resize', handleResize)
 
     return function () {
-      canvas.removeEventListener('click', handleClick)
+      canvas.removeEventListener('pointerdown', handlePointerDown)
       window.removeEventListener('resize', handleResize)
     }
   }, [])
